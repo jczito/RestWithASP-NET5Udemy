@@ -12,8 +12,21 @@ namespace RestWithASP_NET5Udemy.Controllers
         {
             _logger = logger;
         }
+        
+        [HttpGet("Subtraction/{firstNumber}/{secondNumber}")]
+        public IActionResult Subtraction(string firstNumber, string secondNumber)
+        {
+            // sum/2/4
+
+            if (IsNumeric(firstNumber) && IsNumeric(secondNumber))
+            {
+                var sum = ConvertToDecimal(firstNumber) - ConvertToDecimal(secondNumber);
+                return Ok(sum.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
         [HttpGet("Multiplication/{firstNumber}/{secondNumber}")]
-        public IActionResult Get(string firstNumber, string secondNumber)
+        public IActionResult Multiplication(string firstNumber, string secondNumber)
         {
             // sum/2/4
 
@@ -26,7 +39,7 @@ namespace RestWithASP_NET5Udemy.Controllers
         }
 
         [HttpGet("Division/{firstNumber}/{secondNumber}")]
-        public IActionResult Get(string firstNumber, string secondNumber)
+        public IActionResult Division(string firstNumber, string secondNumber)
         {
             // sum/2/4
 
@@ -38,8 +51,8 @@ namespace RestWithASP_NET5Udemy.Controllers
             return BadRequest("Invalid Input");
         }
 
-        [HttpGet("Average/{firstNumber}/{secondNumber}")]
-        public IActionResult Get(string firstNumber, string secondNumber)
+        [HttpGet("mean/{firstNumber}/{secondNumber}")]
+        public IActionResult Mean(string firstNumber, string secondNumber)
         {
             // sum/2/4
 
@@ -52,7 +65,7 @@ namespace RestWithASP_NET5Udemy.Controllers
         }
 
         [HttpGet("sum/{firstNumber}/{secondNumber}")]
-        public IActionResult Get(string firstNumber, string secondNumber)
+        public IActionResult sum(string firstNumber, string secondNumber)
         {
             // sum/2/4
 
@@ -60,6 +73,18 @@ namespace RestWithASP_NET5Udemy.Controllers
             {
                 var sum = ConvertToDecimal(firstNumber) + ConvertToDecimal(secondNumber);
                 return Ok(sum.ToString());
+            }
+            return BadRequest("Invalid Input");
+        }
+        [HttpGet("aquareroot/{firstNumber}")]
+        public IActionResult SquareRoot(string firstNumber)
+        {
+            // sum/2/4
+
+            if (IsNumeric(firstNumber))
+            {
+                var squareroot = Math.Sqrt((double)ConvertToDecimal(firstNumber));
+                return Ok(squareroot.ToString());
             }
             return BadRequest("Invalid Input");
         }
