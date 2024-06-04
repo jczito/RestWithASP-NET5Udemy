@@ -1,12 +1,12 @@
-using RestWithASP_NET5Udemy.Business.Implementations;
-using RestWithASP_NET5Udemy.Business;
+using RestWithASPNETErudio.Model.Context;
 using Microsoft.EntityFrameworkCore;
-using RestWithASP_NET5Udemy.Model.Context;
-using RestWithASP_NET5Udemy.Repository;
-using Serilog;
+using RestWithASPNETErudio.Business.Implementations;
+using RestWithASPNETErudio.Business;
 using MySqlConnector;
+using Serilog;
 using EvolveDb;
-using RestWithASP_NET5Udemy.Repository.Generic;
+using RestWithASPNETErudio.Repository.Generic;
+using RestWithASPNETErudio.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,31 +17,22 @@ builder.Services.AddControllers();
 var connection = builder.Configuration["MySQLConnection:MySQLConnectionString"];
 builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(
     connection,
-    new MySqlServerVersion(new Version(8, 0, 29)))
+    new MySqlServerVersion(new Version(8, 0,29)))
 );
-
-Log.Logger = new LoggerConfiguration()
-        .WriteTo.Console()
-        .CreateLogger();
 
 if (builder.Environment.IsDevelopment())
 {
-    
     MigrateDatabase(connection);
-    
 }
 
-//Versionning API
+//Versioning API
 builder.Services.AddApiVersioning();
 
 //Dependency Injection
 builder.Services.AddScoped<IPersonBusiness, PersonBusinessImplementation>();
-//builder.Services.AddScoped<IRepository, PersonRepositoryImplementation>();
-builder.Services.AddScoped<IBooksBusiness, BookBusinessImplementation>();
-//builder.Services.AddScoped<IBookRepository, BookRepositoryImplementation>();
+builder.Services.AddScoped<IBookBusiness, BookBusinessImplementation>();
+
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
-
-
 
 var app = builder.Build();
 
@@ -55,7 +46,8 @@ app.MapControllers();
 
 app.Run();
 
-void MigrateDatabase(string connection)
+
+void MigrateDatabase(string? connection)
 {
     try
     {
@@ -66,7 +58,6 @@ void MigrateDatabase(string connection)
             IsEraseDisabled = true,
         };
         evolve.Migrate();
-
     }
     catch (Exception ex)
     {

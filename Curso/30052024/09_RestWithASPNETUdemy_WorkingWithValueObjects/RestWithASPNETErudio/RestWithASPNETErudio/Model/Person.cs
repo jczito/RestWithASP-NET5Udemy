@@ -1,7 +1,7 @@
-﻿using RestWithASP_NET5Udemy.Model.Base;
+﻿using RestWithASPNETErudio.Model.Base;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RestWithASP_NET5Udemy.Model
+namespace RestWithASPNETErudio.Model
 {
     [Table("person")]
     public class Person : BaseEntity
@@ -12,12 +12,9 @@ namespace RestWithASP_NET5Udemy.Model
         [Column("last_name")]
         public string LastName { get; set; }
 
-        [Column("gender")]
-        public string Gender { get; set; }
-
         [Column("address")]
         public string Address { get; set; }
-
-
+        [Column("gender")]
+        public string Gender { get; set; }
     }
 }
